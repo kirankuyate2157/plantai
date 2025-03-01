@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 from markupsafe import Markup
 
-from Flask.model import predict_image
-import Flask.utils
+from backend.model import predict_image
+import backend.utils
 
 app = Flask(__name__)
 
