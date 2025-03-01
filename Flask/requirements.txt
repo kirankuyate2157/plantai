@@ -2,6 +2,7 @@ numpy
 pandas
 Flask
 Pillow
+markupsafe
 gunicorn == 20.0.4
 # pytorch
 torch
