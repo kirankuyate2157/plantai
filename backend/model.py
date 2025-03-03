@@ -7,7 +7,6 @@ import io
 import os
 
 
-
 class Plant_Disease_Model(nn.Module):
     def __init__(self):
         super().__init__()
@@ -74,18 +73,12 @@ num_classes = [
 
 # Load model
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model = Plant_Disease_Model()
-
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = Plant_Disease_Model().to(device)
 model_path = os.path.join(BASE_DIR, "Models", "plantDisease-resnet34.pth")
-
-# Load model
-model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
+model.load_state_dict(torch.load(model_path, map_location=device))
+model = torch.compile(model)  # 🔥 Speeds up inference
 model.eval()
-import os
-
-# Get the absolute path of the current script
-
-# Correct the model path
 
 
 def predict_image(img):
@@ -93,7 +86,8 @@ def predict_image(img):
     img_pil = Image.open(io.BytesIO(img)).convert(
         "RGB"
     )  # Convert to RGB to handle grayscale images
-    tensor = transform(img_pil).unsqueeze(0)  # Add batch dimension
+    # tensor = transform(img_pil).unsqueeze(0)  # Add batch dimension
+    tensor = transform(img_pil).unsqueeze(0).to(device)  # Move to GPU
 
     with torch.no_grad():  # Disable gradients for inference
         yb = model(tensor)
