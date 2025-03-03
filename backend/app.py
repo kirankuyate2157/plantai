@@ -13,9 +13,11 @@ import backend.utils as utils
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
+
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -37,14 +39,12 @@ def predict():
         print(f"Error occurred: {e}")
         return render_template("index.html", status=500, res="Internal Server Error")
 
+
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
-
-
-
-
+    port = int(
+        os.environ.get("PORT", 5000)
+    )  # Get Render's assigned port or default to 5000
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 
 # from flask import Flask, render_template, jsonify, request
