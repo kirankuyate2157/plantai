@@ -21,6 +21,7 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    print("Predicting...")
     try:
         file = request.files.get("file")
         if not file:
