@@ -77,8 +77,9 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model = Plant_Disease_Model().to(device)
 model_path = os.path.join(BASE_DIR, "Models", "plantDisease-resnet34.pth")
 model.load_state_dict(torch.load(model_path, map_location=device))
-model = torch.compile(model)  # 🔥 Speeds up inference
+# model = torch.compile(model)  # 🔥 Speeds up inference
 model.eval()
+torch.cuda.empty_cache()
 
 
 def predict_image(img):
